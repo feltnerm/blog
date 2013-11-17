@@ -27,13 +27,14 @@ module.exports = function(grunt) {
                 tasks: ['jshint', 'uglify']
             },
             stylesheets: {
-                files: ['<%= CONFIG.src %>/assets/stylesheets/**/*.{css,less}']
+                files: ['<%= CONFIG.src %>/assets/stylesheets/**/*.{css,less}'],
                 tasks: ['less']
-            }
+            },
             build: {
                 files: [
                     '<%= CONFIG.src %>/{data,templates}/{,*/}*.{md,hbs,yml,json}',
-                    '<%= CONFIG.src %>/assets/{stylesheets,javascripts}/*.{css,js}'],
+                    '<%= CONFIG.src %>/assets/{stylesheets,javascripts}/*.{css,js}'
+                ],
                 tasks: ['build']
             },
             livereload: {
