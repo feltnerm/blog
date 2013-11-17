@@ -1,0 +1,22 @@
+---
+layout: default.hbs
+---
+<section class="blog-links">
+    {{#each pages}}
+    {{#if data.title}}
+    {{#if data.date_published}}
+    <span class="blog-link row">
+        <a href="/{{this.basename}}.html">
+        <span class="blog-link-title eight columns alpha">
+            {{data.title}}
+        </span>
+        <span clas="blog-link-date three columns offset-by-one omega">
+            <time datetime="{{data.date_published}}" pubdate="{{data.date_published}}">{{formatDate data.date_published "%Y-%m-%d"}}</time>
+        </span>
+        </a>
+    </span>
+    {{/if}}
+    {{/if}}
+    {{/each}}
+</section>
+<hr>
