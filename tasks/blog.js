@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 date_started: grunt.template.today('isoDateTime'),
                 tags: [],
                 title: '',
-                category: 'post'
+                category: 'post',
                 layout: 'post.hbs',
             },
             dest = path.join(
