@@ -1,22 +1,22 @@
  16.5%    Isaac Z. Schlueter (isaacs)
 
-    abbrev        chmodr           fstream    fstream-ignore
-    glob          graceful-fs      lru-cache  nopt
-    osenv         rimraf           tar        which
-    minimatch     mute-stream      read       json-stringify-safe
-    block-stream  readable-stream  inherits   sigmund
+    abbrev        chmodr           fstream   fstream-ignore
+    glob          lru-cache        nopt      osenv
+    rimraf        tar              which     minimatch
+    graceful-fs   mute-stream      read      json-stringify-safe
+    block-stream  readable-stream  inherits  sigmund
 
   8.1%    Grunt Team (gruntjs)
 
-    grunt-contrib-clean   grunt-contrib-concat  grunt-contrib-connect  grunt-contrib-copy
-    grunt-contrib-jshint  grunt-contrib-uglify  grunt-contrib-watch    grunt-contrib-less
+    grunt-contrib-clean  grunt-contrib-concat  grunt-contrib-connect  grunt-contrib-copy
+    grunt-contrib-less   grunt-contrib-uglify  grunt-contrib-watch    grunt-contrib-jshint
     grunt-lib-contrib
 
   7.9%    Sindre Sorhus (sindresorhus)
 
-    grunt-shell       time-grunt   chalk            junk
-    stringify-object  sudo-block   update-notifier  load-grunt-tasks
-    ansi-styles       configstore  has-color
+    grunt-shell  load-grunt-tasks  time-grunt   chalk
+    junk         stringify-object  sudo-block   update-notifier
+    ansi-styles  has-color         configstore
 
   5.0%    James Halliday (substack)
 
