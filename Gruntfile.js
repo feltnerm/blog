@@ -110,7 +110,7 @@ module.exports = function(grunt) {
 
         shell: {
             hackers: {
-                command: 'hacker-deps . --verbose | head -n30 >> <%= CONFIG.dist %>/assets/hackers.txt'
+                command: 'hacker-deps . --verbose | head -n30 > <%= CONFIG.src %>/assets/hackers.txt'
             }
         },
 
@@ -173,6 +173,13 @@ module.exports = function(grunt) {
             }
         },
 
+        copy: {
+            all: {
+                src: '<%= CONFIG.src %>/assets/*.txt',
+                dest: '<%= CONFIG.dist %>/assets/'
+            }
+        },
+
         // Before generating any new files,
         // remove any previously-created files.
         clean: ['<%= CONFIG.dist %>']
@@ -182,11 +189,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('assemble');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadTasks('./tasks');
 
     grunt.registerTask('server', [
@@ -203,6 +211,7 @@ module.exports = function(grunt) {
                 'jshint',
                 'less:development',
                 'uglify:development',
+                'copy:all',
                 'assemble'
             ];
         } else {
@@ -212,6 +221,7 @@ module.exports = function(grunt) {
                 'less:production',
                 'uglify:production',
                 'shell:hackers',
+                'copy:all',
                 'assemble'
             ];
         }

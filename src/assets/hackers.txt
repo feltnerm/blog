@@ -1,0 +1,30 @@
+ 16.5%    Isaac Z. Schlueter (isaacs)
+
+    abbrev        chmodr           fstream    fstream-ignore
+    glob          graceful-fs      lru-cache  nopt
+    osenv         rimraf           tar        which
+    minimatch     mute-stream      read       json-stringify-safe
+    block-stream  readable-stream  inherits   sigmund
+
+  8.1%    Grunt Team (gruntjs)
+
+    grunt-contrib-clean   grunt-contrib-concat  grunt-contrib-connect  grunt-contrib-copy
+    grunt-contrib-jshint  grunt-contrib-uglify  grunt-contrib-watch    grunt-contrib-less
+    grunt-lib-contrib
+
+  7.9%    Sindre Sorhus (sindresorhus)
+
+    grunt-shell       time-grunt   chalk            junk
+    stringify-object  sudo-block   update-notifier  load-grunt-tasks
+    ansi-styles       configstore  has-color
+
+  5.0%    James Halliday (substack)
+
+    archy     mkdirp    text-table  optimist
+    binary    minimist  wordwrap    buffers
+    chainsaw  resolve   traverse
+
+  3.8%    TJ Holowaychuk (visionmedia)
+
+    commander  connect           qs     debug
+    bytes      cookie-signature  fresh  pause
