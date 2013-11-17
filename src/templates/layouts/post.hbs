@@ -1,0 +1,16 @@
+---
+layout: default.hbs
+---
+<article>
+    <header class="article-header row">
+        <h1><a href="/{{page.basename}}">{{page.title}}</a></h1>
+        {{# if page.date_published }}
+        <time datetime="{{page.date_published}}" pubdate="{{page.date_published}}">{{formatDate page.date_published "%Y-%m-%d"}}</time>
+        {{/if}}
+    </header>
+    <hr>
+    {{#markdown}}
+    {{>body}}
+    {{/markdown}}
+    <hr>
+</article>
