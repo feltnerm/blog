@@ -1,13 +1,33 @@
 ---
 layout: default.hbs
 ---
+    <dl class="blog-links">
     {{#each pages}}
-
-    {{#if category}}
-        <a href="/{{this.basename}}.html">
-        {{data.title}}
-        <time datetime="{{add_date this.src}}" pubdate="{{add_date this.src}}">{{add_date this.src}}</time></a>
+    {{#if data.title}}
+    {{^is data.title "Colophon"}}
+    {{#unless data.DEVELOPMENT}}
+    <span class="blog-link">
+        <dt class="page-title"><a href="/{{this.basename}}.html">{{data.title}}</a></dt>
+        <dd class="page-date"><time datetime="{{add_date this.src}}" pubdate="{{add_date this.src}}">{{add_date this.src}}</time></dd>
+        <br>
+        <dd class="page-intro">{{data.intro}}</dd>
+    </span>
+    {{/unless}}
+    {{/is}}
     {{/if}}
-
     {{/each}}
+    </dl>
+
+    <dl>
+    {{#each pages}}
+    {{#if DEVELOPMENT}}
+    {{#if data.DEVELOPMENT}}
+        <a href="/{{this.basename}}.html">
+        <dt class="page-title">{{data.title}}</dt>
+        <dd class="page-date"><time datetime="{{add_date this.src}}" pubdate="{{add_date this.src}}">{{add_date this.src}}</time></dd></a>
+    {{/if}}
+    {{/if}}
+    {{/each}}
+    </dl>
+
 </section>
