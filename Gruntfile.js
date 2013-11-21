@@ -175,8 +175,18 @@ module.exports = function(grunt) {
 
         copy: {
             all: {
-                src: '<%= CONFIG.src %>/assets/*.txt',
-                dest: '<%= CONFIG.dist %>/assets/'
+                files: [
+                    {
+                        src: '<%= CONFIG.src %>/assets/*.txt',
+                        dest: '<%= CONFIG.dist %>/assets/'
+                    },
+                    {
+                        src: '<%= CONFIG.src %>/assets/CNAME',
+                        dest: '<%= CONFIG.dist %>/',
+                        flatten: true,
+                        expand: true
+                    }
+                ]
             }
         },
 
