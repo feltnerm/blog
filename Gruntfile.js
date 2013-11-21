@@ -110,7 +110,7 @@ module.exports = function(grunt) {
 
         shell: {
             hackers: {
-                command: 'hacker-deps . --verbose | head -n30 > <%= CONFIG.src %>/assets/hackers.txt'
+                command: './node_modules/.bin/hacker-deps . --verbose | head -n30 > <%= CONFIG.dist %>/hackers.txt'
             }
         },
 
@@ -177,11 +177,7 @@ module.exports = function(grunt) {
             all: {
                 files: [
                     {
-                        src: '<%= CONFIG.src %>/assets/*.txt',
-                        dest: '<%= CONFIG.dist %>/assets/'
-                    },
-                    {
-                        src: '<%= CONFIG.src %>/assets/CNAME',
+                        src: '<%= CONFIG.src %>/assets/{CNAME,robots.txt,humans.txt}',
                         dest: '<%= CONFIG.dist %>/',
                         flatten: true,
                         expand: true
