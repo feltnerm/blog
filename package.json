@@ -2,7 +2,7 @@
   "name": "blog",
   "description": "Static blog generator",
   "author": "Mark Feltner",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://mark.feltner.me",
   "repository": {
     "type": "git",
