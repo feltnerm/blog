@@ -8,7 +8,7 @@ layout: default.hbs
     {{#unless data.DEVELOPMENT}}
     <span class="blog-link">
         <dt class="page-title"><a href="/{{this.basename}}.html">{{data.title}}</a></dt>
-        <dd class="page-date"><time datetime="{{add_date this.src}}" pubdate="{{add_date this.src}}">{{add_date this.src}}</time></dd>
+        <dd class="page-date"><time datetime="{{add_date this.src ""}}" pubdate="{{add_date this.src ""}}">{{add_date this.src "ddd MMMM Do, YYYY"}}</time></dd>
         <br>
         <dd class="page-intro">{{data.intro}}</dd>
     </span>
