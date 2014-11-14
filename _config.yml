@@ -18,6 +18,13 @@ github_repo: "https://github.com/feltnerm/blog"
 
 google_analytics: "UA-45806952-1"
 
+defaults:
+    -
+        scope:
+            path: "" # an empty string here means all files in the project
+        values:
+            layout: "default"
+
 gems:
     - emoji_for_jekyll
     - jekyll-git_metadata
