@@ -1,9 +1,8 @@
 ---
-published: true
-DEVELOPMENT: false
-layout: post.hbs
-date_started: "2013-11-17T14:15:17"
-title: "First Post!"
+layout: post
+title: "First Post"
+date: "2013-11-17T14:15:17"
+categories: intro
 intro: "I had to have something here."
 ---
 
