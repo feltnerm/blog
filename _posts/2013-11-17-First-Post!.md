@@ -2,7 +2,7 @@
 layout: post
 title: "First Post"
 date: "2013-11-17T14:15:17"
-categories: intro
+categories: posts
 intro: "I had to have something here."
 ---
 
