@@ -2,8 +2,7 @@
 
 title: Living Style Guide
 layout: default
-# set draft:false to publish so you can preview style changes or markdown changes
-draft:true
+published: false
 ---
 # Typography
 
