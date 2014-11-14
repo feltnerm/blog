@@ -18,5 +18,23 @@ github_repo: "https://github.com/feltnerm/blog"
 
 google_analytics: "UA-45806952-1"
 
+gems:
+    - emoji_for_jekyll
+    - jekyll-git_metadata
+    - jekyll_version_plugin
+    - jekyll-timeago
+    - jekyll-assets
+
 # Build settings
 markdown: kramdown
+
+assets:
+    sources:
+        - _assets/images
+        - _assets/javascripts
+        - _assets/stylesheets
+        - _assets/vendor/kube/less
+    js_compressor: 'uglifier'
+    css_compressor: 'sass'
+    cachebust: ~
+    gzip: [ text/css, application/javascript ]

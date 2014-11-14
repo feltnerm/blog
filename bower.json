@@ -1,0 +1,19 @@
+{
+  "name": "blog",
+  "homepage": "https://github.com/feltnerm/blog",
+  "authors": [
+    "Mark Feltner <mark@feltner.me>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "kube": "git://github.com/imperavi/kube#~3.0.2"
+  }
+}
