@@ -1,3 +1,6 @@
 .sass-cache
 Gemfile.lock
 Gemfile
+_site
+_assets
+bower.json
