@@ -12,6 +12,7 @@ Google search results) and in your feed.xml site description.
 '''
 
 THEME = 'theme/feltnerm'
+DEVELOP = True
 
 PATH = 'content'
 

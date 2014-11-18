@@ -10,6 +10,8 @@ import sys
 sys.path.append(os.curdir)
 from pelicanconf import *
 
+DEVELOP = False
+
 SITEURL = 'http://blog.feltnerm.com'
 RELATIVE_URLS = False
 
