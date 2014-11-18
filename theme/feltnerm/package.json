@@ -1,0 +1,25 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "Mark Feltner's blog",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "gulp-cssmin": "^0.1.6",
+    "gulp-sourcemaps": "^1.2.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feltnerm/blog.git"
+  },
+  "author": "Mark Feltner",
+  "license": "MIT / Creative Commons",
+  "bugs": {
+    "url": "https://github.com/feltnerm/blog/issues"
+  },
+  "homepage": "https://github.com/feltnerm/blog"
+}
