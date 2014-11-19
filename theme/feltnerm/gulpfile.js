@@ -3,16 +3,17 @@ var path = require('path');
 var gulp = require('gulp');
 
 var sourcemaps = require('gulp-sourcemaps'),
-    cssmin = require('gulp-cssmin');
+    cssmin = require('gulp-cssmin'),
+    browserify = require('browserify');
 
 var ROOT = './',
     ROOT_STATIC = path.join(ROOT, 'static') ;
 
-var CONFIG = {
-    css: path.join(ROOT_STATIC, 'css'),
-    js: path.join(ROOT_STATIC, 'js'),
-    vendor_css: path.join(ROOT_STATIC, 'vendor')
-};
+gulp.task('css', function(){
+});
+
+gulp.task('js', function(){
+});
 
 gulp.task('default', function(){
     console.log(CONFIG);

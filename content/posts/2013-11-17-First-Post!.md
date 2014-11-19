@@ -1,8 +1,6 @@
-title: "First Post"
-layout: post
-categories: posts
-intro: "I had to have something here."
----
+Title: First Post
+Categories: posts
+Summary: I had to have something here.
 
 Well then, first post here on the new static blog generator.
 

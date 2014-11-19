@@ -1,17 +1,27 @@
-<div class="home">
+{% extends "base.html" %}
+{% block content %}
+<section itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1>All articles</h2>
+    </header>
 
-  <h1 class="page-heading">Posts</h1>
+    <section>
+        <ol>
+        {% for article in articles_page.object_list %}
+            <li>
+                <article itemscope itemtype="http://schema.org/BlogPosting">
+                    <header>
+                        <h1 itemprop="name"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2>
+                        <time itemprop="datePublished" datetime="{{ article.date.isoformat() }}" content="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+                    </header>
+                    <section itemprop="about">{{ article.about }}</section>
+                    <footer>
+                    </footer>
+                </article></li>
+        {% endfor %}
+        </ol><!-- /#posts-list -->
+    </section>
 
-  <ul class="post-list">
-      <li>
-        <span class="post-meta"></span>
-
-        <h2>
-          <a class="post-link" href=""></a>
-        </h2>
-      </li>
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="">via RSS</a></p>
-
-</div>
+    {% include 'pagination.html' %}
+</section>
+{% endblock content %}

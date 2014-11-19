@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "gulp": "^3.8.10",
+    "gulp-browserify": "^0.5.0",
     "gulp-cssmin": "^0.1.6",
     "gulp-sourcemaps": "^1.2.8"
   },

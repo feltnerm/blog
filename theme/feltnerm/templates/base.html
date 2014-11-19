@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" itemscope itemtype="http://schema.org/WebPage"> <!--<![endif]-->
     {% include "includes/head.html" %}
     <body>
         <!--[if lt IE 7]>
@@ -10,13 +10,14 @@
         <![endif]-->
 
         {% include "includes/header.html" %}
+        {% include "includes/nav.html" %}
 
         <p>Hello world! This is HTML5 Boilerplate.</p>
-        {{ content }}
+        {% block content %}{% endblock %}
 
         {% include "includes/footer.html" %}
+        {% include "includes/scripts.html" %}
         {% include "includes/analytics.html" %}
 
-        <script src="js/main.js"></script>
     </body>
 </html>
