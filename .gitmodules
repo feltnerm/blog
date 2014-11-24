@@ -1,0 +1,4 @@
+[submodule "theme/feltnerm-pelican-theme"]
+	path = theme/feltnerm-pelican-theme
+	url = https://github.com/feltnerm/feltnerm-pelican-theme.git
+	branch = master
