@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Mark Feltner'
-SITENAME = "Mark Feltner's Blog"
+SITENAME = "mark feltner's weblog"
 EMAIL = 'mark@feltner.me'
 SITEURL = ''
 DESCRIPTION = '''Write an awesome description for your new site here. You can
@@ -11,7 +11,7 @@ edit this line in _config.yml. It will appear in your document head meta (for
 Google search results) and in your feed.xml site description.
 '''
 
-THEME = 'theme/feltnerm'
+THEME = 'theme/feltnerm-pelican-theme'
 DEVELOP = True
 
 PATH = 'content'
