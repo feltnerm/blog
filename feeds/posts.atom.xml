@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mark feltner's weblog</title><link href="http://blog.feltnerm.com/" rel="alternate"></link><link href="http://blog.feltnerm.com/feeds/posts.atom.xml" rel="self"></link><id>http://blog.feltnerm.com/</id><updated>2014-11-13T00:00:00-06:00</updated><entry><title>"Welcome to Jekyll!"</title><link href="http://blog.feltnerm.com/welcome-to-jekyll.html" rel="alternate"></link><updated>2014-11-13T00:00:00-06:00</updated><author><name>Mark Feltner</name></author><id>tag:blog.feltnerm.com,2014-11-13:welcome-to-jekyll.html</id><summary type="html">&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve --watch&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;def print_hi(name)
+  puts &amp;quot;Hi, #{name}&amp;quot;
+end
+print_hi(&amp;#39;Tom&amp;#39;)
+#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Check out the &lt;a href="http://jekyllrb.com"&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href="https://github.com/jekyll/jekyll"&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href="https://github.com/jekyll/jekyll-help"&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;</summary></entry><entry><title>First Post</title><link href="http://blog.feltnerm.com/first-post.html" rel="alternate"></link><updated>2013-11-17T00:00:00-06:00</updated><author><name>Mark Feltner</name></author><id>tag:blog.feltnerm.com,2013-11-17:first-post.html</id><summary type="html">&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
+&lt;p&gt;Why write a static blog generator?&lt;/p&gt;
+&lt;p&gt;First and foremost, writing more. I want to do it. Becoming a better writer involves writing more, and having a blog is a great place to let out thoughts. I'd also like to have a permanent record of what I write, even if it's backed up on some cloud-server somewhere in the ether-verse.&lt;/p&gt;
+&lt;p&gt;Since I'm going to be writing more I would like to have ownership over what I write. I'm not saying this is common or going to happen to me, but I wouldn't want something I wrote to be used commercially without at least my consent, and I certainly wouldn't want someone attributing something &lt;em&gt;I&lt;/em&gt; wrote to themselves. Not cool.&lt;/p&gt;
+&lt;p&gt;Otherwise, I'm very ok with transparency in my writing process to the extent of open-sourcing &lt;a href="https://github.com/feltnerm/blog"&gt;the generator&lt;/a&gt;, including &lt;a href="https://github.com/feltnerm/blog"&gt;the posts&lt;/a&gt;. Feel free to submit an &lt;a href="https://github.com/feltnerm/blog/issues"&gt;issue&lt;/a&gt; if anyone finds a spelling error or any other bug :P&lt;/p&gt;
+&lt;p&gt;Lastly, I love to build things and tinker with software. I've already spent more time building and fine-tuning the programmatic aspects of this blog than I have actually writing.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Writing, to me, is simply thinking through my fingers.
+ - Isaac Asimov&lt;/p&gt;
+&lt;/blockquote&gt;</summary></entry></feed>

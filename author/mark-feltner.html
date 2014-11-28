@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" itemscope itemtype="http://schema.org/WebPage"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7'> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8'> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9'> <![endif]-->
+<!--[if gt IE 8]><!--> <html class='no-js' itemscope itemtype='http://schema.org/WebPage'> <!--<![endif]-->
 <!-- Head -->
 <head>
     <meta charset="utf-8">
@@ -10,37 +10,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!-- Site Metadata -->
-<title>Mark Feltner's Blog</title>
+<title>mark feltner's weblog</title>
 <meta name="author" content="Mark Feltner">
-<meta name="description" content="Write an awesome description for your new site here. You can
-edit this line in _config.yml. It will appear in your document head meta (for
-Google search results) and in your feed.xml site description.
-">
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
 
-<link rel="canonical" href="">
-<link rel="humans" type="text/plain" href="/humans.txt">
-<link rel="hackers" type="text/plain" href="/hackers.txt"><!-- RSS Feeds -->
+<link rel="canonical" href="http://blog.feltnerm.com">
+<link rel="humans" type="text/plain" href="http://blog.feltnerm.com/humans.txt">
+<link rel="hackers" type="text/plain" href="http://blog.feltnerm.com/hackers.txt"><!-- RSS Feeds -->
 <!-- So Firefox can bookmark->"abo this site" -->
+<link href="http://blog.feltnerm.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mark feltner's weblog Full Atom Feed" />
 <!-- Favicons -->
 <!--
-<link rel="shortcut icon" href="/images/favicon.ico">
-<link rel="shortcut icon" href="/images/apple-touch-icon.png">
-<link rel="shortcut icon" href="/images/apple-touch-icon-72x72.png">
-<link rel="shortcut icon" href="/images/apple-touch-icon-114x72.png">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/favicon.ico">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon.png">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon-72x72.png">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon-114x72.png">
 -->
-
-</head>    <body>
+<link href='http://fonts.googleapis.com/css?family=Lora|Inconsolata|Open+Sans' rel='stylesheet' type='text/css'>
+<link href='/theme/bundle.css' rel='stylesheet' type='text/css'></head>    <body>
         <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <p class='browsehappy'>You are using an <strong>outdated</strong> browser. Please <a href='http://browsehappy.com/'>upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <div class='grid'>
+            <div class='row'>
 <!-- Site Header -->
-<header class="site-header">
-    <h1><a href="/">Mark Feltner's Blog <strong></strong></a></h1>
-</header><nav>
-</nav>
+<div class="col-xs-4">
+    <header class="site-header">
+        <h1><a href="http://blog.feltnerm.com/">mark feltner's weblog <strong></strong></a></h1>
+    </header>
+</div><div class='col-xs-7 col-xs-offset-1'>
+    <nav class='site-nav'>
+        <ul>
+            <!--
+            <li><a href="http://blog.feltnerm.com">weblog</a></li>
+            <li><a href="http://github.com/feltnerm">projects</a></li>
+            <li><a href="#">about</a></li>
+            -->
+        </ul>
+    </nav>
+</div>
+            </div>
 
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+            <div class='row'>
 <article itemscope itemtype="http://schema.org/Person">
     <header>
         <h1 itemprop="name">Mark Feltner</h1>
@@ -49,11 +61,16 @@ Google search results) and in your feed.xml site description.
         <p>A really cool dude</p>
     </section>
 </article>
+            </div>
 
+            <div class='row'>
 <!-- Site Footer -->
-<footer class="site-footer">
+<div class='row'>
+    <footer class="site-footer">
+    </footer>
+</div>            </div>
 
-</footer><!-- Site Javascripts -->
+<!-- Site Javascripts -->
 <script type="text/javascript" src="theme/bundle.js"></script><!-- Analytics -->
 <script>
     var _gaq=[['_setAccount',''],['_trackPageview']];
@@ -61,6 +78,7 @@ Google search results) and in your feed.xml site description.
     g.src='//www.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
 </script>
+        </div>
 
     </body>
 </html>
