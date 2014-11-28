@@ -30,19 +30,18 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
-OUTPUT_PATH = './_site/'
 STATIC_PATHS = [
-    './static/CNAME',
-    './static/robots.txt',
-    './static/hackers.txt',
-    './static/humans.txt'
+    'static/CNAME',
+    'static/robots.txt',
+    'static/hackers.txt',
+    'static/humans.txt'
 ]
 
 EXTRA_PATH_METADATA = {
-    './static/CNAME': { 'path': 'CNAME' },
-    './static/robots.txt': { 'path': 'robots.txt' },
-    './static/hackers.txt': { 'path': 'hackers.txt' },
-    './static/humans.txt': { 'path': 'humans.txt' }
+    'static/CNAME': { 'path': 'CNAME' },
+    'static/robots.txt': { 'path': 'robots.txt' },
+    'static/hackers.txt': { 'path': 'hackers.txt' },
+    'static/humans.txt': { 'path': 'humans.txt' }
 }
 
 REPO_HOME = 'https://github.com/feltnerm/blog'
