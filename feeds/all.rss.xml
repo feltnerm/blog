@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mark Feltner's Weblog</title><link href="http://blog.feltnerm.com/" rel="alternate"></link><link href="http://blog.feltnerm.com/feeds/all.atom.xml" rel="self"></link><id>http://blog.feltnerm.com/</id><updated>2013-11-17T00:00:00-06:00</updated><entry><title>First Post</title><link href="http://blog.feltnerm.com/posts/2013/11/17/first-post/" rel="alternate"></link><updated>2013-11-17T00:00:00-06:00</updated><author><name>Mark Feltner</name></author><id>tag:blog.feltnerm.com,2013-11-17:posts/2013/11/17/first-post/</id><summary type="html">&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mark Feltner's Weblog</title><link>http://blog.feltnerm.com/</link><description></description><atom:link href="http://blog.feltnerm.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 17 Nov 2013 00:00:00 -0600</lastBuildDate><item><title>First Post</title><link>http://blog.feltnerm.com/posts/2013/11/17/first-post/</link><description>&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
 &lt;p&gt;Why write a static blog generator?&lt;/p&gt;
 &lt;p&gt;First and foremost, writing more. I want to do it. Becoming a better writer involves writing more, and having a blog is a great place to let out thoughts. I&amp;rsquo;d also like to have a permanent record of what I write, even if it&amp;rsquo;s backed up on some cloud-server somewhere in the ether-verse.&lt;/p&gt;
 &lt;p&gt;Since I&amp;rsquo;m going to be writing more I would like to have ownership over what I write. I&amp;rsquo;m not saying this is common or going to happen to me, but I wouldn&amp;rsquo;t want something I wrote to be used commercially without at least my consent, and I certainly wouldn&amp;rsquo;t want someone attributing something &lt;em&gt;I&lt;/em&gt; wrote to themselves. Not cool.&lt;/p&gt;
@@ -8,4 +8,4 @@
 &lt;blockquote&gt;
 &lt;p&gt;Writing, to me, is simply thinking through my fingers.
  - Isaac Asimov&lt;/p&gt;
-&lt;/blockquote&gt;</summary><category term="thoughts"></category></entry></feed>
+&lt;/blockquote&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Sun, 17 Nov 2013 00:00:00 -0600</pubDate><guid>tag:blog.feltnerm.com,2013-11-17:posts/2013/11/17/first-post/</guid><category>thoughts</category></item></channel></rss>
