@@ -1,5 +1,5 @@
 Title: First Post
-Categories: posts
+Tags: thoughts
 About: I had to have something here.
 
 Well then, first post here on the new static blog generator.
