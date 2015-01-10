@@ -3,13 +3,11 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Mark Feltner'
-SITENAME = "mark feltner's weblog"
+SITENAME = "Mark Feltner's Weblog"
+SITENAME_SHORT = "Mark Feltner's Weblog"
 EMAIL = 'mark@feltner.me'
 SITEURL = ''
-DESCRIPTION = '''Write an awesome description for your new site here. You can
-edit this line in _config.yml. It will appear in your document head meta (for
-Google search results) and in your feed.xml site description.
-'''
+DESCRIPTION = "The thoughts and writings of Mark James Feltner."
 
 THEME = 'theme/feltnerm-pelican-theme'
 DEVELOP = True
@@ -55,21 +53,28 @@ ANALYTICS = {
     'GOOGLE': 'UA-45806952-1'
 }
 
-# Blogroll
-LINKS = (
-    #('Pelican', 'http://getpelican.com/'),
-    #('Python.org', 'http://python.org/'),
-    #('Jinja2', 'http://jinja.pocoo.org/'),
-    #('You can modify those links in your config file', '#'),
-)
-
-# Social widget
-SOCIAL = (
-    #('You can add links in your config file', '#'),
-    #('Another social link', '#'),
-)
-
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+
+ARTICLE_URL = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
+ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
+ARTICLE_URL = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
+ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
+PAGE_URL = '{slug}/'
+PAGE_SAVE_AS = '{slug}/index.html'
+ARCHIVES_SAVE_AS = 'posts/index.html'
+YEAR_ARCHIVE_SAVE_AS='posts/{date:%Y}/index.html'
+MONTH_ARCHIVE_SAVE_AS='posts/{date:%Y}/{date:%m}/index.html'
+DAY_ARCHIVE_SAVE_AS='posts/{date:%Y}/{date:%m}/{date:%d}/index.html'
+AUTHORS_SAVE_AS=''
+CATEGORY_SAVE_AS = ''
+CATEGORIES_SAVE_AS = ''
+
+MD_EXTENSIONS = [
+    'codehilite(css_class=highlight)',
+    'extra',
+    'headerid',
+    'smarty'
+]
