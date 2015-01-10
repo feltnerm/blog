@@ -1,7 +1,13 @@
-title: Living Style Guide
-layout: default
-published: false
----
+title: style guide
+published: true
+
+> This is my living style guide. Its purpose is to show me -- and you -- what
+the site's CSS styles look like and how they fit into this site.
+
+
+----
+
+
 # Typography
 
 ## Headings
