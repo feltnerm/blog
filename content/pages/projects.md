@@ -16,8 +16,8 @@ project's respective issue tracker.
   theme for this site.
 - [docfu](https://github.com/feltnerm/docfu) - A custom-made static site
   generator that creates the [Fine Uploader
-  documentation](docs.fineuploader.com).
-- [... and more.](https://github.com/feltnerm?tab=repositories)
+  documentation](http://docs.fineuploader.com).
+- [... and](https://github.com/feltnerm?tab=repositories) [more.](https://www.npmjs.com/~feltnerm)
 
 
 ### Contributed to ...
