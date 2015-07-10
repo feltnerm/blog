@@ -1,5 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mark Feltner's Weblog</title><link>http://blog.feltnerm.com/</link><description></description><atom:link href="http://blog.feltnerm.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 17 Nov 2013 00:00:00 -0600</lastBuildDate><item><title>First Post</title><link>http://blog.feltnerm.com/posts/2013/11/17/first-post/</link><description>&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mark Feltner's Weblog</title><link>http://blog.feltnerm.com/</link><description></description><atom:link href="http://blog.feltnerm.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 28 Jun 2015 00:00:00 -0500</lastBuildDate><item><title>Machine Learning with Spark and Docker</title><link>http://blog.feltnerm.com/posts/2015/06/28/machine-learning-with-spark-and-docker/</link><description>&lt;p&gt;Machine learning has recently been gaining a lot more of my interest, and this
+weekend I decided I was going to try and get &lt;em&gt;something&lt;/em&gt; going. I was able to build a &lt;a href="https://spark.apache.org/"&gt;Apache Spark&lt;/a&gt; cluster on
+&lt;a href="http://hadoop.apache.org/"&gt;Hadoop&lt;/a&gt; running in &lt;a href="https://www.docker.com/"&gt;Docker container&lt;/a&gt;.
+I used &lt;a href=""&gt;gradle&lt;/a&gt;
+&lt;a href="https://github.com/granthenke/spark-demo"&gt;project&lt;/a&gt; that &lt;a href="https://github.com/feltnerm/spark-demo"&gt;I forked&lt;/a&gt;.
+(eat your heart out crawlers!)&lt;/p&gt;
+&lt;p&gt;Here are my notes so I don&amp;rsquo;t forget, and so you can maybe learn a thing or
+two.&lt;/p&gt;
+&lt;p&gt;Apache Spark is a cluster-computation engine that can do machine-learning (and much more!).
+We&amp;rsquo;ll use this to compose ML algorithms using well-tested code, rather than trying to hand-code
+complicated ML algorithms ourselves (although that does sound like a good
+learning exercise, and there will be a bit of DIY ML involved later).&lt;/p&gt;
+&lt;p&gt;Spark is made to run on a Hadoop. As I understand it, Spark queries are
+sent to Hadoop, and then Hadoop will do the job of decomposing the Spark
+job/query into a series of steps that can be distributed over a number of machines and
+safely combined when calculations are done. One of Spark&amp;rsquo;s greatest strengths
+is that is is able to assemble Map/Reduce jobs &lt;em&gt;in-memory&lt;/em&gt; which greatly
+increases the speed of our cluster.&lt;/p&gt;
+&lt;p&gt;This means the compute for our ML algorithms can potentially scale to
+thousands of nodes. There may come a day when you&amp;rsquo;re processing a massive
+amount of data with a very intense algorithm, but &amp;ndash; fortunately &amp;ndash; today is
+not that day. We&amp;rsquo;ll keep it simple for now, but it&amp;rsquo;s good to know what our
+limitations and possibilities  are.&lt;/p&gt;
+&lt;p&gt;Docker is an operating-system virtualizer. Virtual machines virtualize hardware.
+Docker virtualizes software. We will use docker to quickly run Hadoop
+locally so we can send ML queries for it to process.&lt;/p&gt;
+&lt;p&gt;This is a great way to get started with new technology if you&amp;rsquo;re at all like
+me and need to get your hands dirty with new tools and tech in order to better
+grasp them.&lt;/p&gt;
+&lt;h2 id="build-our-workspace"&gt;Build our Workspace&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/feltnerm/spark-example"&gt;feltnerm/spark-example&lt;/a&gt; is a fork of
+&lt;a href="https://github.com/granthenke/spark-demo"&gt;granthenke/spark-example&lt;/a&gt;, a project that uses
+gradle (the JVM build tool I am most familiar with)
+I simply have updated a few things here and there including some dependencies.
+This will help us to do some of the boring stuff including generating a fat JAR &amp;ndash; a JAR containing all of our project
+dependencies &amp;ndash; which we can ship up to a Hadoop cluster to evaluate.&lt;/p&gt;
+&lt;p&gt;If you want to get started then clone that sucker:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/feltnerm/spark-example
+&lt;span class="nb"&gt;cd &lt;/span&gt;spark-example
+gradle build
+
+&lt;span class="c"&gt;# feel free to run one of the following to generate a project for a specific IDE&lt;/span&gt;
+gradle eclipse
+&lt;span class="c"&gt;# or&lt;/span&gt;
+gradle idea
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="run-a-spark-compatible-hadoop-cluster-locally"&gt;Run a Spark-compatible Hadoop-cluster locally&lt;/h2&gt;
+&lt;p&gt;Now that we have something to run, we need something to run it against.&lt;/p&gt;
+&lt;p&gt;Lately, I&amp;rsquo;ve been diggin&amp;rsquo; docker for quickly spinning up non-trivial
+applications. Looking at Hadoop&amp;rsquo;s docs, it certainly looks like a
+relatively non-trivial setup. By that, I mean I would probably get distracted
+and move on before I finished.&lt;/p&gt;
+&lt;p&gt;Fortunately, the &lt;a href="https://github.com/sequenceiq/docker-spark"&gt;docker-spark&lt;/a&gt;
+project proved to be the perfect way to get Hadoop running locally so I could
+run Spark queries against it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# pull down spark docker image&lt;/span&gt;
+docker pull sequenceiq/spark:1.4.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 id="build-the-spark-query"&gt;Build the Spark Query&lt;/h2&gt;
+&lt;p&gt;The following is an example Spark query, and the computation that we hope the
+eventually run locally.&lt;/p&gt;
+&lt;p&gt;The following code will be, more or less, what our Hadoop cluster will run.
+This code is ripped right from &lt;a href=""&gt;@granthenke&amp;rsquo;s spark-example&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The explanation of how π is calculated from the &lt;a href="http://spark.apache.org/examples.html"&gt;Spark examples&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Spark can also be used for compute-intensive tasks. This code estimates π by &amp;ldquo;throwing darts&amp;rdquo; at a circle. We pick random points in the unit square ((0, 0) to (1,1)) and see how many fall in the unit circle. The fraction should be π / 4, so we use this to get our estimate.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;package&lt;/span&gt; &lt;span class="nn"&gt;com.feltnerm.sparkexample&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.math.random&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark._&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.apache.spark.SparkContext._&lt;/span&gt;
+
+&lt;span class="cm"&gt;/** Computes an approximation to pi */&lt;/span&gt;
+&lt;span class="k"&gt;object&lt;/span&gt; &lt;span class="nc"&gt;SparkPi&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="nc"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Usage: SparkPi &amp;lt;master&amp;gt; [&amp;lt;slices&amp;gt;]&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="nc"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;}&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Process Args&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;SparkConf&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+      &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setMaster&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+      &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setAppName&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getClass&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getCanonicalName&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setJars&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;SparkContext&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jarOfClass&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getClass&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;spark&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;SparkContext&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;slices&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100000&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;slices&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Run spark job&lt;/span&gt;
+    &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;spark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parallelize&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;slices&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+    &lt;span class="o"&gt;}.&lt;/span&gt;&lt;span class="n"&gt;reduce&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Output &amp;amp; Close&lt;/span&gt;
+    &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Pi is roughly &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;spark&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stop&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We&amp;rsquo;re going to run the above code against a Spark-able Hadoop cluster, but
+first we need to build a fat JAR &amp;ndash; a JAR with &lt;em&gt;all&lt;/em&gt; of our sources. We can
+use &lt;code&gt;gradle&lt;/code&gt; for this!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# build hadoop fat jar&lt;/span&gt;
+% ./gradlew build
+% ls build/libs/
+spark-example-1.0-hadoop.jar  spark-example-1.0-javadoc.jar spark-example-1.0-sources.jar spark-example-1.0.jar
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once we have our JAR ready, we run a new Spark container, and
+run the Spark fat-JAR that we just created via a shared filesystem mount.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# run spark docker image, with the local build directory (`./build/libs/`) mounted under libs&lt;/span&gt;
+&lt;span class="c"&gt;# submit job to spark (example of SparkPi w/ arguments)&lt;/span&gt;
+&lt;span class="c"&gt;# note this is running on the spark cluster&lt;/span&gt;
+docker run --name spark --rm -it -p 8088:8088 -p 8042:8042 -v &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;&lt;span class="nb"&gt;pwd&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;/build/libs/:/libs/&amp;quot;&lt;/span&gt; sequenceiq/spark:1.4.0 bash
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Let&amp;rsquo;s go over this&amp;hellip;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re interactively (&lt;code&gt;--it&lt;/code&gt;) running (&lt;code&gt;run&lt;/code&gt;) a Docker container named &amp;lsquo;spark&amp;rsquo;
+(&lt;code&gt;--name spark&lt;/code&gt;) based off the &amp;lsquo;1.4.0&amp;rsquo; tag of sequenceiq&amp;rsquo;s spark image
+(&lt;code&gt;sequenceiq/spark:1.4.0&lt;/code&gt;) which we want to remove any trace of when we exit (&lt;code&gt;--rm&lt;/code&gt;),
+mapping ports 8088 and 8042 from the container to the host
+(&lt;code&gt;-p 8088:8088 -p 8042:8042&lt;/code&gt;) so we can remotely access Hadoop if needed,
+and mounting the local directory containing our build artifacts to the container
+(&lt;code&gt;$(pwd)/builds/libs/:/libs/&lt;/code&gt;). Once the container starts we run &lt;code&gt;bash&lt;/code&gt; (which sets up &lt;code&gt;$SCALA_HOME&lt;/code&gt; and &lt;code&gt;$JAVA_HOME&lt;/code&gt; for us),
+and from here we can start our job..&lt;/p&gt;
+&lt;p&gt;The last step is to actually submit our job via &lt;code&gt;spark-submit&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;spark-submit &lt;span class="se"&gt;\&lt;/span&gt;
+--class com.feltnerm.sparkexample.SparkPi &lt;span class="se"&gt;\&lt;/span&gt;
+--master yarn-client &lt;span class="se"&gt;\&lt;/span&gt;
+--driver-memory 1g &lt;span class="se"&gt;\&lt;/span&gt;
+--executor-memory &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+--executor-cores &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+/libs/sparkexample-1.0-hadoop.jar &lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;2&lt;span class="o"&gt;]&lt;/span&gt; 100
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The above command is submitting the &lt;code&gt;/libs/sparkexample-1.0-hadoop.jar&lt;/code&gt; to
+Spark. The reason we are setting &lt;code&gt;--master yarn-client&lt;/code&gt; is because
+this is a single node cluster, and we only want the master node the run the
+job.&lt;/p&gt;
+&lt;p&gt;Next, I&amp;rsquo;ll post some actual machine learning algorithms and Spark code.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Sun, 28 Jun 2015 00:00:00 -0500</pubDate><guid>tag:blog.feltnerm.com,2015-06-28:posts/2015/06/28/machine-learning-with-spark-and-docker/</guid><category>machine learning</category><category>docker</category></item><item><title>Using Ansible to Provision Windows Machines</title><link>http://blog.feltnerm.com/posts/2015/03/19/using-ansible-to-provision-windows-machines/</link><description>&lt;p&gt;Ansible is great! UNIX philosophy blah blah blah.&lt;/p&gt;
+&lt;p&gt;For work, I needed to provision some windows machines. Trying to save some 45
+minutes of time per deployment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install pywinrm  on the host&lt;/li&gt;
+&lt;li&gt;Install powershell 3.0 on the remote
+    a. Death
+    b. Despair&lt;/li&gt;
+&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Thu, 19 Mar 2015 00:00:00 -0500</pubDate><guid>tag:blog.feltnerm.com,2015-03-19:posts/2015/03/19/using-ansible-to-provision-windows-machines/</guid><category>devops</category></item><item><title>First Post</title><link>http://blog.feltnerm.com/posts/2013/11/17/first-post/</link><description>&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
 &lt;p&gt;Why write a static blog generator?&lt;/p&gt;
 &lt;p&gt;First and foremost, writing more. I want to do it. Becoming a better writer involves writing more, and having a blog is a great place to let out thoughts. I&amp;rsquo;d also like to have a permanent record of what I write, even if it&amp;rsquo;s backed up on some cloud-server somewhere in the ether-verse.&lt;/p&gt;
 &lt;p&gt;Since I&amp;rsquo;m going to be writing more I would like to have ownership over what I write. I&amp;rsquo;m not saying this is common or going to happen to me, but I wouldn&amp;rsquo;t want something I wrote to be used commercially without at least my consent, and I certainly wouldn&amp;rsquo;t want someone attributing something &lt;em&gt;I&lt;/em&gt; wrote to themselves. Not cool.&lt;/p&gt;

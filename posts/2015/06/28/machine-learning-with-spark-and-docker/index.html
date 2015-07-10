@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class='no-js lt-ie9 lt-ie8 lt-ie7'> <![endif]-->
+<!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8'> <![endif]-->
+<!--[if IE 8]>         <html class='no-js lt-ie9'> <![endif]-->
+<!--[if gt IE 8]><!--> <html class='no-js' itemscope itemtype='http://schema.org/WebPage'> <!--<![endif]-->
+<!-- Head -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Site Metadata -->
+    <title>Machine Learning with Spark and Docker | Mark Feltner's Weblog</title>
+    <meta name="author" content="Mark Feltner">
+<meta name="description" content="Machine learning has recently been gaining a lot more of my interest, and this weekend I decided I was going to try and get something going. I was able to build a Apache Spark cluster on Hadoop running in Docker container. I used gradle project that I forked. (eat your ...">
+
+    <link rel="canonical" href="http://blog.feltnerm.com">
+    <link rel="humans" type="text/plain" href="http://blog.feltnerm.com/humans.txt">
+    <link rel="hackers" type="text/plain" href="http://blog.feltnerm.com/hackers.txt">
+<!-- RSS Feeds -->
+<!-- So Firefox can bookmark->"abo this site" -->
+<link href="http://blog.feltnerm.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Mark Feltner's Weblog Full Atom Feed" />
+<link href="http://blog.feltnerm.com/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="Mark Feltner's Weblog Full RSS Feed" />
+<link href="http://blog.feltnerm.com/feeds/atom.xml" type="application/atom+xml" rel="alternate" title="Mark Feltner's Weblog Atom Feed" />
+<link href="http://blog.feltnerm.com/feeds/rss.xml" type="application/rss+xml" rel="alternate" title="Mark Feltner's Weblog RSS Feed" />
+<!-- Favicons -->
+<link rel="shortcut icon" href="http://blog.feltnerm.com/theme/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="http://blog.feltnerm.com/theme/images/favicon.ico" type="image/x-icon">
+<!--
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon.png">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon-72x72.png">
+<link rel="shortcut icon" href="http://blog.feltnerm.com/images/apple-touch-icon-114x72.png">
+-->
+<link href='http://fonts.googleapis.com/css?family=Lora|Open+Sans|Source+Code+Pro' rel='stylesheet' type='text/css'>    <script type="text/javascript" src="/theme/bundle.js"></script>
+
+</head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class='browsehappy'>You are using an <strong>outdated</strong> browser. Please <a href='http://browsehappy.com/'>upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class='container'>
+            <div class='row'>
+<!-- Site Header -->
+<div class="seven columns">
+    <header class="site-header">
+        <h1><a href="http://blog.feltnerm.com/">Mark Feltner's Weblog</a></h1>
+    </header>
+</div><div class='five columns'>
+    <nav class='site-nav'>
+        <ul>
+            <li><a href="/">weblog</a> · </li>
+            <li><a href="/posts">archive</a> · </li>
+            <li><a href="/tags">tags</a> · </li>
+            <li><a href="/projects">projects</a> · </li>
+            <li><a href="/about">about</a></li>
+        </ul>
+    </nav>
+</div>
+            </div>
+
+            <div class='row'>
+<div class='article-container'>
+    <article itemscope itemtype='http://schema.org/BlogPosting'>
+        <div class='row'>
+            <div class='row'>
+                <header class='article-header'>
+                    <h1 itemprop='name'><a href='#' itemprop='url'>Machine Learning with Spark and Docker</a></h1>
+                </header>
+            </div>
+            <div class='row article-meta'>
+                <span class='article-meta-date'>
+                    Written on <time itemprop='datePublished' datetime='2015-06-28T00:00:00-05:00' content='2015-06-28T00:00:00-05:00'>Sunday, June 28, 2015</time>
+                </span>
+            </div>
+        </div>
+        <div class='row article-content'>
+            <section itemprop='articleBody' class='typeset'>
+                <p>Machine learning has recently been gaining a lot more of my interest, and this
+weekend I decided I was going to try and get <em>something</em> going. I was able to build a <a href="https://spark.apache.org/">Apache Spark</a> cluster on
+<a href="http://hadoop.apache.org/">Hadoop</a> running in <a href="https://www.docker.com/">Docker container</a>.
+I used <a href="">gradle</a>
+<a href="https://github.com/granthenke/spark-demo">project</a> that <a href="https://github.com/feltnerm/spark-demo">I forked</a>.
+(eat your heart out crawlers!)</p>
+<p>Here are my notes so I don&rsquo;t forget, and so you can maybe learn a thing or
+two.</p>
+<p>Apache Spark is a cluster-computation engine that can do machine-learning (and much more!).
+We&rsquo;ll use this to compose ML algorithms using well-tested code, rather than trying to hand-code
+complicated ML algorithms ourselves (although that does sound like a good
+learning exercise, and there will be a bit of DIY ML involved later).</p>
+<p>Spark is made to run on a Hadoop. As I understand it, Spark queries are
+sent to Hadoop, and then Hadoop will do the job of decomposing the Spark
+job/query into a series of steps that can be distributed over a number of machines and
+safely combined when calculations are done. One of Spark&rsquo;s greatest strengths
+is that is is able to assemble Map/Reduce jobs <em>in-memory</em> which greatly
+increases the speed of our cluster.</p>
+<p>This means the compute for our ML algorithms can potentially scale to
+thousands of nodes. There may come a day when you&rsquo;re processing a massive
+amount of data with a very intense algorithm, but &ndash; fortunately &ndash; today is
+not that day. We&rsquo;ll keep it simple for now, but it&rsquo;s good to know what our
+limitations and possibilities  are.</p>
+<p>Docker is an operating-system virtualizer. Virtual machines virtualize hardware.
+Docker virtualizes software. We will use docker to quickly run Hadoop
+locally so we can send ML queries for it to process.</p>
+<p>This is a great way to get started with new technology if you&rsquo;re at all like
+me and need to get your hands dirty with new tools and tech in order to better
+grasp them.</p>
+<h2 id="build-our-workspace">Build our Workspace</h2>
+<p><a href="https://github.com/feltnerm/spark-example">feltnerm/spark-example</a> is a fork of
+<a href="https://github.com/granthenke/spark-demo">granthenke/spark-example</a>, a project that uses
+gradle (the JVM build tool I am most familiar with)
+I simply have updated a few things here and there including some dependencies.
+This will help us to do some of the boring stuff including generating a fat JAR &ndash; a JAR containing all of our project
+dependencies &ndash; which we can ship up to a Hadoop cluster to evaluate.</p>
+<p>If you want to get started then clone that sucker:</p>
+<div class="highlight"><pre>git clone https://github.com/feltnerm/spark-example
+<span class="nb">cd </span>spark-example
+gradle build
+
+<span class="c"># feel free to run one of the following to generate a project for a specific IDE</span>
+gradle eclipse
+<span class="c"># or</span>
+gradle idea
+</pre></div>
+
+
+<h2 id="run-a-spark-compatible-hadoop-cluster-locally">Run a Spark-compatible Hadoop-cluster locally</h2>
+<p>Now that we have something to run, we need something to run it against.</p>
+<p>Lately, I&rsquo;ve been diggin&rsquo; docker for quickly spinning up non-trivial
+applications. Looking at Hadoop&rsquo;s docs, it certainly looks like a
+relatively non-trivial setup. By that, I mean I would probably get distracted
+and move on before I finished.</p>
+<p>Fortunately, the <a href="https://github.com/sequenceiq/docker-spark">docker-spark</a>
+project proved to be the perfect way to get Hadoop running locally so I could
+run Spark queries against it.</p>
+<div class="highlight"><pre><span class="c"># pull down spark docker image</span>
+docker pull sequenceiq/spark:1.4.0
+</pre></div>
+
+
+<h2 id="build-the-spark-query">Build the Spark Query</h2>
+<p>The following is an example Spark query, and the computation that we hope the
+eventually run locally.</p>
+<p>The following code will be, more or less, what our Hadoop cluster will run.
+This code is ripped right from <a href="">@granthenke&rsquo;s spark-example</a></p>
+<p>The explanation of how π is calculated from the <a href="http://spark.apache.org/examples.html">Spark examples</a>:</p>
+<blockquote>
+<p>Spark can also be used for compute-intensive tasks. This code estimates π by &ldquo;throwing darts&rdquo; at a circle. We pick random points in the unit square ((0, 0) to (1,1)) and see how many fall in the unit circle. The fraction should be π / 4, so we use this to get our estimate.</p>
+</blockquote>
+<div class="highlight"><pre><span class="k">package</span> <span class="nn">com.feltnerm.sparkexample</span>
+
+<span class="k">import</span> <span class="nn">scala.math.random</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkContext._</span>
+
+<span class="cm">/** Computes an approximation to pi */</span>
+<span class="k">object</span> <span class="nc">SparkPi</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+      <span class="nc">System</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">&quot;Usage: SparkPi &lt;master&gt; [&lt;slices&gt;]&quot;</span><span class="o">)</span>
+      <span class="nc">System</span><span class="o">.</span><span class="n">exit</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Process Args</span>
+    <span class="k">val</span> <span class="n">conf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkConf</span><span class="o">()</span>
+      <span class="o">.</span><span class="n">setMaster</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+      <span class="o">.</span><span class="n">setAppName</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="n">getClass</span><span class="o">.</span><span class="n">getCanonicalName</span><span class="o">)</span>
+      <span class="o">.</span><span class="n">setJars</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="nc">SparkContext</span><span class="o">.</span><span class="n">jarOfClass</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="n">getClass</span><span class="o">).</span><span class="n">get</span><span class="o">))</span>
+
+    <span class="k">val</span> <span class="n">spark</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkContext</span><span class="o">(</span><span class="n">conf</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">slices</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">args</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="n">args</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">toInt</span> <span class="k">else</span> <span class="mi">2</span>
+    <span class="k">val</span> <span class="n">n</span> <span class="k">=</span> <span class="mi">100000</span> <span class="o">*</span> <span class="n">slices</span>
+
+    <span class="c1">// Run spark job</span>
+    <span class="k">val</span> <span class="n">count</span> <span class="k">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="n">n</span><span class="o">,</span> <span class="n">slices</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span> <span class="n">i</span> <span class="k">=&gt;</span>
+      <span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="n">random</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">val</span> <span class="n">y</span> <span class="k">=</span> <span class="n">random</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="o">}.</span><span class="n">reduce</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
+
+    <span class="c1">// Output &amp; Close</span>
+    <span class="n">println</span><span class="o">(</span><span class="s">&quot;Pi is roughly &quot;</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">count</span> <span class="o">/</span> <span class="n">n</span><span class="o">)</span>
+    <span class="n">spark</span><span class="o">.</span><span class="n">stop</span><span class="o">()</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p>We&rsquo;re going to run the above code against a Spark-able Hadoop cluster, but
+first we need to build a fat JAR &ndash; a JAR with <em>all</em> of our sources. We can
+use <code>gradle</code> for this!</p>
+<div class="highlight"><pre><span class="c"># build hadoop fat jar</span>
+% ./gradlew build
+% ls build/libs/
+spark-example-1.0-hadoop.jar  spark-example-1.0-javadoc.jar spark-example-1.0-sources.jar spark-example-1.0.jar
+</pre></div>
+
+
+<p>Once we have our JAR ready, we run a new Spark container, and
+run the Spark fat-JAR that we just created via a shared filesystem mount.</p>
+<div class="highlight"><pre><span class="c"># run spark docker image, with the local build directory (`./build/libs/`) mounted under libs</span>
+<span class="c"># submit job to spark (example of SparkPi w/ arguments)</span>
+<span class="c"># note this is running on the spark cluster</span>
+docker run --name spark --rm -it -p 8088:8088 -p 8042:8042 -v <span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/build/libs/:/libs/&quot;</span> sequenceiq/spark:1.4.0 bash
+</pre></div>
+
+
+<p>Let&rsquo;s go over this&hellip;</p>
+<p>We&rsquo;re interactively (<code>--it</code>) running (<code>run</code>) a Docker container named &lsquo;spark&rsquo;
+(<code>--name spark</code>) based off the &lsquo;1.4.0&rsquo; tag of sequenceiq&rsquo;s spark image
+(<code>sequenceiq/spark:1.4.0</code>) which we want to remove any trace of when we exit (<code>--rm</code>),
+mapping ports 8088 and 8042 from the container to the host
+(<code>-p 8088:8088 -p 8042:8042</code>) so we can remotely access Hadoop if needed,
+and mounting the local directory containing our build artifacts to the container
+(<code>$(pwd)/builds/libs/:/libs/</code>). Once the container starts we run <code>bash</code> (which sets up <code>$SCALA_HOME</code> and <code>$JAVA_HOME</code> for us),
+and from here we can start our job..</p>
+<p>The last step is to actually submit our job via <code>spark-submit</code>:</p>
+<div class="highlight"><pre>spark-submit <span class="se">\</span>
+--class com.feltnerm.sparkexample.SparkPi <span class="se">\</span>
+--master yarn-client <span class="se">\</span>
+--driver-memory 1g <span class="se">\</span>
+--executor-memory <span class="m">1</span> <span class="se">\</span>
+--executor-cores <span class="m">1</span> <span class="se">\</span>
+/libs/sparkexample-1.0-hadoop.jar <span class="nb">local</span><span class="o">[</span>2<span class="o">]</span> 100
+</pre></div>
+
+
+<p>The above command is submitting the <code>/libs/sparkexample-1.0-hadoop.jar</code> to
+Spark. The reason we are setting <code>--master yarn-client</code> is because
+this is a single node cluster, and we only want the master node the run the
+job.</p>
+<p>Next, I&rsquo;ll post some actual machine learning algorithms and Spark code.</p>
+            </section>
+        </div>
+    </article>
+</div>
+            </div>
+
+            <div class='row'>
+<!-- Site Footer -->
+<div class='row'>
+    <hr/>
+    <footer class="site-footer">
+        <div class="twelve columns ">
+            <div class="row">
+                <ul class="footer-links-list">
+                    <li><a href="https://github.com/feltnerm">github</a> · </li>
+                    <li><a href="https://twitter.com/feltnermj">twitter</a> · </li>
+                    <li><a href="http://www.last.fm/user/plugitin">last.fm</a> · </li>
+                    <li><a href="mailto:mark+blog@feltner.me">email</a></li>
+                </ul>
+            </div>
+            <div class="row">
+            <div class="row">
+                <ul class="footer-links-list">
+                    <li><a href="/feeds/all.rss.xml">rss</a> · </li>
+                    <li><a href="/feeds/all.atom.xml">atom</a> · </li>
+                    <li><a href="/style-guide">style</a> · </li>
+                    <li><a href="/credits">credits</a></li>
+                </ul>
+            </div>
+            <div class="row footer-copyright">
+                <p>© 2015, Mark Feltner
+                <p>This <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" rel="dct:type">work</span> is licensed under a
+                    <br><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
+            </div>
+        </div>
+    </footer>
+</div>            </div>
+
+<!-- Site Javascripts --><!-- Analytics -->
+<script>
+    var _gaq=[['_setAccount',''],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src='//www.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+        </div>
+
+    </body>
+</html>
