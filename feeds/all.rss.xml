@@ -153,15 +153,7 @@ and from here we can start our job..&lt;/p&gt;
 Spark. The reason we are setting &lt;code&gt;--master yarn-client&lt;/code&gt; is because
 this is a single node cluster, and we only want the master node the run the
 job.&lt;/p&gt;
-&lt;p&gt;Next, I&amp;rsquo;ll post some actual machine learning algorithms and Spark code.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Sun, 28 Jun 2015 00:00:00 -0500</pubDate><guid>tag:blog.feltnerm.com,2015-06-28:posts/2015/06/28/machine-learning-with-spark-and-docker/</guid><category>machine learning</category><category>docker</category></item><item><title>Using Ansible to Provision Windows Machines</title><link>http://blog.feltnerm.com/posts/2015/03/19/using-ansible-to-provision-windows-machines/</link><description>&lt;p&gt;Ansible is great! UNIX philosophy blah blah blah.&lt;/p&gt;
-&lt;p&gt;For work, I needed to provision some windows machines. Trying to save some 45
-minutes of time per deployment.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Install pywinrm  on the host&lt;/li&gt;
-&lt;li&gt;Install powershell 3.0 on the remote
-    a. Death
-    b. Despair&lt;/li&gt;
-&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Thu, 19 Mar 2015 00:00:00 -0500</pubDate><guid>tag:blog.feltnerm.com,2015-03-19:posts/2015/03/19/using-ansible-to-provision-windows-machines/</guid><category>devops</category></item><item><title>First Post</title><link>http://blog.feltnerm.com/posts/2013/11/17/first-post/</link><description>&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
+&lt;p&gt;Next, I&amp;rsquo;ll post some actual machine learning algorithms and Spark code.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mark Feltner</dc:creator><pubDate>Sun, 28 Jun 2015 00:00:00 -0500</pubDate><guid>tag:blog.feltnerm.com,2015-06-28:posts/2015/06/28/machine-learning-with-spark-and-docker/</guid><category>machine learning</category><category>docker</category></item><item><title>First Post</title><link>http://blog.feltnerm.com/posts/2013/11/17/first-post/</link><description>&lt;p&gt;Well then, first post here on the new static blog generator.&lt;/p&gt;
 &lt;p&gt;Why write a static blog generator?&lt;/p&gt;
 &lt;p&gt;First and foremost, writing more. I want to do it. Becoming a better writer involves writing more, and having a blog is a great place to let out thoughts. I&amp;rsquo;d also like to have a permanent record of what I write, even if it&amp;rsquo;s backed up on some cloud-server somewhere in the ether-verse.&lt;/p&gt;
 &lt;p&gt;Since I&amp;rsquo;m going to be writing more I would like to have ownership over what I write. I&amp;rsquo;m not saying this is common or going to happen to me, but I wouldn&amp;rsquo;t want something I wrote to be used commercially without at least my consent, and I certainly wouldn&amp;rsquo;t want someone attributing something &lt;em&gt;I&lt;/em&gt; wrote to themselves. Not cool.&lt;/p&gt;
