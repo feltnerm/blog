@@ -72,7 +72,7 @@ AUTHORS_SAVE_AS=''
 CATEGORY_SAVE_AS = ''
 CATEGORIES_SAVE_AS = ''
 
-MD_EXTENSIONS = [
+MARKDOWN = [
     'codehilite(css_class=highlight)',
     'extra',
     'headerid',
