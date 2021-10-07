@@ -73,8 +73,8 @@ CATEGORY_SAVE_AS = ''
 CATEGORIES_SAVE_AS = ''
 
 MARKDOWN = [
-    'codehilite(css_class=highlight)',
-    'extra',
-    'headerid',
-    'smarty'
+    # 'codehilite(css_class=highlight)',
+    # 'extra',
+    # 'headerid',
+    # 'smarty'
 ]
