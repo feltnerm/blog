@@ -1,6 +1,7 @@
 Title: Make Monorepo
 Tags: front-end, Makefile, monorepo, npm
 About: Using Makefiles to manage monorepos.
+Status: draft
 
 _If you would like to skip the ceremony and jump right into the code checkout the
 [accompanying GitHub repo](https://github.com/feltnerm/monorepo-es6-dev)._
