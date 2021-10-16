@@ -72,9 +72,38 @@ AUTHORS_SAVE_AS=''
 CATEGORY_SAVE_AS = ''
 CATEGORIES_SAVE_AS = ''
 
-# MARKDOWN = [
-    # 'codehilite(css_class=highlight)',
-    # 'extra',
-    # 'headerid',
-    # 'smarty'
-# ]
+MARKDOWN = {
+    'extension_configs': {
+        # 'markdown.extensions.codehilite': {'css_class': 'highlight'},
+        'markdown.extensions.smarty': {},
+        'markdown.extensions.sane_lists': {},
+
+        # "proxy" for `markdown.extensions.extra``
+        'pymdownx.extra': {},
+
+        # emphasis that is more like GFM
+        'pymdownx.betterem': {},
+
+        # use emoji shortcodes
+        'pymdownx.emoji': {},
+
+        # code highlighting
+        'pymdownx.highlight': {},
+        'pymdownx.inlinehilite': {},
+        'pymdownx.superfences': {},
+
+        # turn markdown links into ... links
+        'pymdownx.magiclink': {},
+
+        # strict parsing of headers
+        'pymdownx.saneheaders': {},
+
+        # fancy symbols
+        'pymdownx.smartsymbols': {},
+
+
+        # @todo: where did this extension go?!
+        # 'markdown.extensions.headerid': {},
+    },
+    'output_format': 'html5',
+}
